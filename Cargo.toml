@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    # "crates/*",
+    "may-exist",
+    "ref-counter"
+, "thread_model"]
+exclude = []
+
+[workspace.dependencies]
+may-exist = {path = "may-exist"}
