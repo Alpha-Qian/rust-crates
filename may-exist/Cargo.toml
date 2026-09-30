@@ -2,5 +2,12 @@
 name = "may-exist"
 version = "0.1.0"
 edition = "2024"
+description = ""
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["no-std", "const-generics", "type-level"]
+categories = ["no-std", "data-structures", "rust-patterns"]
+repository = "https://github.com/Alpha-Qian/rust-crates"
 
 [dependencies]
+const-bool = {workspace = true}
