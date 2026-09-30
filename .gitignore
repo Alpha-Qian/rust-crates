@@ -1,0 +1,44 @@
+
+# 构建产物(所有 crate 共享一个顶层 target/)
+/target/
+
+# 如果某些子 crate 有独立的 target 目录(一般不会,但保险起见)
+**/target/
+
+# Cargo 锁文件
+# - 如果是二进制项目(bin),建议提交 Cargo.lock
+# - 如果是库项目(lib),通常忽略 Cargo.lock
+# 按需选择,下面默认注释掉,表示提交它
+Cargo.lock
+
+# 编辑器/IDE相关
+.vscode/
+.idea/
+*.iml
+.fleet/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# 环境变量文件
+.env
+.env.local
+
+# 日志和临时文件
+*.log
+*.tmp
+*.bak
+
+# 测试覆盖率产物
+*.profraw
+lcov.info
+
+# sccache / 增量编译缓存(如果用了本地缓存目录)
+.cache/
+
+# rust-analyzer 生成的文件
+rust-project.json

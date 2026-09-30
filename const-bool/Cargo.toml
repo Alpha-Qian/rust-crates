@@ -1,0 +1,11 @@
+[package]
+name = "const-bool"
+version = "0.1.0"
+edition = "2021"
+description = "Type-level booleans to bypass 'where A::Flag == B::Flag' limitations in const generics. provide the 'std::conditional_t<B, T, E>‘ in cpp"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["no-std", "const-generics", "type-level", "boolean"]
+categories = ["no-std", "data-structures", "rust-patterns"]
+
+[dependencies]
