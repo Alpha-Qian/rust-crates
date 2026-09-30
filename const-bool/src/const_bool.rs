@@ -7,6 +7,9 @@ use crate::sealed::Sealed;
 pub unsafe trait ConstBool: Sealed {
     const VALUE: bool;
 
+    // allow T: ?Size, F: ?Sized is imposble;
+    // because the compeliter can not understand 'T: Sized & F: Sized => <B as ConstBool>::Select<T, F>: Sized'
+    // it makes write genic code both of ConstTrue and ConstFalse is imposible
     ///True => T; False => F
     type Select<T, F>;
 
