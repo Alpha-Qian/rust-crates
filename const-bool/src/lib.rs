@@ -26,6 +26,7 @@
 //! ```
 
 mod const_bool;
+mod assert;
 
 pub use const_bool::{
     ConstBool,
@@ -41,6 +42,11 @@ pub use const_bool::{
     Select,
 };
 
+pub use assert::{
+    AssertTrue,
+    AssertFalse,
+};
+
 mod sealed {
     pub trait Sealed {}
 }
@@ -51,6 +57,14 @@ mod tests {
 
     #[test]
     fn test_logic() {
+
+        // const fn test_bound<A: ConstBool, B: ConstBool>()
+        // where
+        //     And<A, B> = ConstTrue
+        // {
+        //     todo!()
+        // }
+        
         // test VALUE
         assert_eq!(ConstTrue::VALUE, true);
         assert_eq!(ConstFalse::VALUE, false);
