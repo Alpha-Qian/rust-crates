@@ -124,7 +124,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
     /// }
     /// '''
     pub const fn is_none() -> bool {
-        F::VALUE
+        !F::VALUE
     }
 
     ///see as ["Option::is_none_of"]
@@ -150,7 +150,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
         unsafe { transmute_unchecked(()) }
     }
 
-    pub const fn as_pin_ref(self: Pin<&Self>) -> StaticOption<Pin<&mut T>, F> {
+    pub const fn as_pin_ref(self: Pin<&Self>) -> StaticOption<Pin<&T>, F> {
         if F::VALUE {
             return unsafe{ transmute_unchecked(self) };
         }
@@ -230,7 +230,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
         return unsafe { transmute_unchecked(()) };
     }
 
-    pub fn and<R: ConstBool>(self, other: StaticOption<T, R>) -> StaticOption<T, F::And<R>> {
+    pub fn and<R: ConstBool>(self, other: StaticOption<T, R>) -> StaticOption<T, F> {
         if F::VALUE {
             if R::VALUE {
                 return unsafe { transmute_unchecked(other) };
@@ -244,7 +244,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
     pub fn and_then<RF: ConstBool, R>(
         self,
         f: impl FnOnce(T) -> StaticOption<R, RF>,
-    ) -> StaticOption<T, F::And<RF>> {
+    ) -> StaticOption<R, F::And<RF>> {
         if F::VALUE {
             unsafe {
                 let arg = transmute_unchecked(self);
