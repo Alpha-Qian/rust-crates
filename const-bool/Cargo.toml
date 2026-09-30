@@ -7,5 +7,6 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 keywords = ["no-std", "const-generics", "type-level", "boolean"]
 categories = ["no-std", "data-structures", "rust-patterns"]
+repository = "https://github.com/Alpha-Qian/rust-crates/tree/main/const-bool"
 
 [dependencies]
