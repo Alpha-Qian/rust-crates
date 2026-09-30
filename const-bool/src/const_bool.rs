@@ -69,11 +69,11 @@ pub type Or<A, B> = <A as ConstBool>::Or<B>;
 
 pub type And<A, B> = <A as ConstBool>::And<B>;
 
-pub type Xor<A, B> = And<Or<A, B>, Not<And<A, B>>>;
+pub type Eq<A, B> = <A as ConstBool>::Eq<B>;
 
-pub type Eq<A, B> = Not<Xor<A, B>>;
+pub type Xor<A, B> = Not<Eq<A, B>>;
 
-pub type Nor<A, B> = <<A as ConstBool>::Or<B> as ConstBool>::Not;
+pub type Nor<A, B> = Not<Or<A, B>>;
 
-pub type Nand<A, B> = <<A as ConstBool>::And<B> as ConstBool>::Not;
+pub type Nand<A, B> = Not<And<A, B>>;
 
