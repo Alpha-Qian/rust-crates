@@ -51,12 +51,15 @@ mod tests {
 
     #[test]
     fn test_logic() {
-        // 测试 VALUE
+        // test VALUE
+        assert_eq!(ConstTrue::VALUE, true);
+        assert_eq!(ConstFalse::VALUE, false);
+        
         assert_eq!(<And<ConstTrue, ConstFalse> as ConstBool>::VALUE, false);
         assert_eq!(<Or<ConstTrue, ConstFalse> as ConstBool>::VALUE, true);
         assert_eq!(<Eq<ConstTrue, ConstTrue> as ConstBool>::VALUE, true);
         
-        // 测试类型选择 (Select)
+        // test type select
         assert_eq!(<Select<ConstTrue, i32, f64>>::default(), 0i32);
         assert_eq!(<Select<ConstFalse, i32, f64>>::default(), 0.0f64);
     }

@@ -1,9 +1,9 @@
 use crate::sealed::Sealed;
 
-///Safty:
-/// 实现者有且仅能有ConstTrue和ConstFalse两个
-/// 实现的内容必须正确
-/// 其他unsafe代码可以假设trait中的不变量
+/// # Safety
+/// The implementors can and must only be `ConstTrue` and `ConstFalse`.
+/// The implemented content must be correct.
+/// Other `unsafe` code can assume the invariants in the trait.
 pub unsafe trait ConstBool: Sealed {
     const VALUE: bool;
 
@@ -61,19 +61,19 @@ unsafe impl ConstBool for ConstFalse {
     //type BiggerThan<R: ConstBool> = ConstFalse;
 }
 
-pub type Select<B: ConstBool, T, F> = B::Select<T, F>;
+pub type Select<B, T, F> = <B as ConstBool>::Select<T, F>;
 
-pub type Not<B: ConstBool> = B::Not;
+pub type Not<B> = <B as ConstBool>::Not;
 
-pub type Or<A: ConstBool, B: ConstBool> = A::Or<B>;
+pub type Or<A, B> = <A as ConstBool>::Or<B>;
 
-pub type And<A: ConstBool, B: ConstBool> = A::And<B>;
+pub type And<A, B> = <A as ConstBool>::And<B>;
 
-pub type Xor<A: ConstBool, B: ConstBool> = And<Or<A, B>, Not<And<A, B>>>;
+pub type Xor<A, B> = And<Or<A, B>, Not<And<A, B>>>;
 
-pub type Eq<A: ConstBool, B: ConstBool> = Not<Xor<A, B>>;
+pub type Eq<A, B> = Not<Xor<A, B>>;
 
-pub type Nor<A: ConstBool, B: ConstBool> = <A::Or<B> as ConstBool>::Not;
+pub type Nor<A, B> = <<A as ConstBool>::Or<B> as ConstBool>::Not;
 
-pub type Nand<A: ConstBool, B: ConstBool> = <A::And<B> as ConstBool>::Not;
+pub type Nand<A, B> = <<A as ConstBool>::And<B> as ConstBool>::Not;
 
