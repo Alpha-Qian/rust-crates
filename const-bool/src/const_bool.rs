@@ -1,3 +1,4 @@
+
 use crate::sealed::Sealed;
 
 /// # Safety

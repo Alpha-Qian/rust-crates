@@ -28,6 +28,10 @@
 mod const_bool;
 mod assert;
 
+//暂不公开
+mod const_flag;
+mod from_bool;
+
 pub use const_bool::{
     ConstBool,
     ConstTrue,

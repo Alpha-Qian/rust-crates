@@ -3,14 +3,52 @@
 version = 4
 
 [[package]]
+name = "atomig"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd0f41f4bb89f5c6450325e283fb78c4a3d042181b54f3855ee2f872919f9863"
+
+[[package]]
+name = "cfg-if"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600"
+
+[[package]]
+name = "const-bool"
+version = "0.1.2"
+
+[[package]]
+name = "may-atomic"
+version = "0.1.0"
+dependencies = [
+ "atomig",
+ "may-exist",
+ "radium",
+]
+
+[[package]]
 name = "may-exist"
 version = "0.1.0"
+dependencies = [
+ "const-bool",
+]
+
+[[package]]
+name = "radium"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1775bc532a9bfde46e26eba441ca1171b91608d14a3bae71fea371f18a00cffe"
+dependencies = [
+ "cfg-if",
+]
 
 [[package]]
 name = "ref-counter"
 version = "0.1.0"
 dependencies = [
  "may-exist",
+ "radium",
 ]
 
 [[package]]

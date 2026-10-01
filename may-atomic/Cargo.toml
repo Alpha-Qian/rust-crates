@@ -1,0 +1,9 @@
+[package]
+name = "may-atomic"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+radium = {workspace = true}
+may-exist = { workspace = true }
+atomig = "0.4.3"

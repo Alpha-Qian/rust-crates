@@ -1,11 +1,17 @@
 [workspace]
 resolver = "2"
 members = [
-    # "crates/*",
+    "const-bool",
+    "may-atomic",
     "may-exist",
-    "ref-counter"
-, "thread_model"]
+    "ref-counter",
+    "thread_model"
+]
+
 exclude = []
 
 [workspace.dependencies]
 may-exist = {path = "may-exist"}
+may-atomic = {path = "may-atomic"}
+const-bool = {path = "const-bool", version = "0.1.1"}
+radium = "1.1.1"

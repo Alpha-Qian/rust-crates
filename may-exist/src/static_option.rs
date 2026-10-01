@@ -79,7 +79,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
         unsafe{ transmute(self) }
     }
     
-    /// 
+    /// 如果F为ConstFalse,则初始化为None，否则为Some(value)
     pub fn new_none_or(value: T) -> Self {
         if F::VALUE {
             return unsafe { Self::new_assume_some(value)};
@@ -127,7 +127,7 @@ impl<T, F: ConstBool> StaticOption<T, F> {
         !F::VALUE
     }
 
-    ///see as ["Option::is_none_of"]
+    ///see as ["std::option::Option::is_none_or"]
     pub fn is_none_or(self, f: impl FnOnce(T) -> bool) -> bool {
         if F::VALUE {
             return f(unsafe { self.unwarp_assume_some() });
@@ -268,6 +268,28 @@ impl<T, F: ConstBool> StaticOption<T, F> {
         }
     }
 
+    pub fn map_optional<U>(self, f: StaticOption<impl FnOnce(T) -> U, F>) -> StaticOption<U, F> {
+        if F::VALUE {
+            unsafe{
+                let this = self.unwarp_assume_some();
+                let f = f.unwarp_assume_some();
+                return StaticOption::new_assume_some(f(this))
+            }
+        }
+        unsafe{ StaticOption::new_assume_none() }
+    }
+
+    // pub fn and_then_optional<U>(self, f: StaticOption<impl FnOnce(T) -> Option<U>, F>) -> StaticOption<Option<U>, F> {
+    //     if F::VALUE {
+    //         unsafe{
+    //             let this = self.unwarp_assume_some();
+    //             let f = f.unwarp_assume_some();
+    //             return StaticOption::new_assume_some(f(this))
+    //         }
+    //     }
+    //     unsafe { StaticOption::new_assume_none() }
+    // }
+
     //fn replace
 
     //fn zip
@@ -306,8 +328,8 @@ impl<T> StaticOption<T, ConstFalse> {
 //     pub const fn cloned(self) ->
 // }
 
-// impl<T> Deref for StaticOption<T, ConstTrue> {
 
+// impl<T> Deref for StaticOption<T, ConstTrue> {
 // }
 
 // impl<T> DerefMut for StaticOption<T, ConstTrue> {
@@ -357,7 +379,7 @@ where
     }
 }
 
-///由于编译器限制，无法直接从T: Copy 中推出StaticOption: Copy
+///由于编译器限制，无法直接从T: Copy 中中直接推出StaticOption: Copy
 impl<T, F: ConstBool> Copy for StaticOption<T, F> 
 where 
     F::Select<T, ()>: Copy,
