@@ -1,11 +1,15 @@
+use core::cmp::Eq as StdEq;
+use core::{fmt::Debug, hash::Hash};
 
 use crate::sealed::Sealed;
 
+// we add a set of super trait make sure user's derive can work
 /// # Safety
 /// The implementors can and must only be `ConstTrue` and `ConstFalse`.
 /// The implemented content must be correct.
 /// Other `unsafe` code can assume the invariants in the trait.
-pub unsafe trait ConstBool: Sealed {
+/// 
+pub unsafe trait ConstBool: Sealed + Debug + Copy + Hash + StdEq + Send + Sync + Unpin + 'static {
     const VALUE: bool;
 
     // allow T: ?Size, F: ?Sized is imposible;
@@ -25,6 +29,7 @@ pub unsafe trait ConstBool: Sealed {
     //type BiggerThan<R: ConstBool>: ConstBool;
 }
 
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum ConstTrue{}
 
 impl Sealed for ConstTrue {}
@@ -45,6 +50,7 @@ unsafe impl ConstBool for ConstTrue {
     //type BiggerThan<R: ConstBool> = R::Neg;
 }
 
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub enum ConstFalse{}
 
 impl Sealed for ConstFalse {}
