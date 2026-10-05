@@ -36,6 +36,7 @@ fn proof_xor_swap<A: ConstBool, B: ConstBool>() -> Is<Xor<A, B>, Xor<B, A>> {
     match <Xor<A, B> as ConstBool>::WIT{
         BoolWit::True(is_true) => unsafe {
             
+            todo!()
         }
         BoolWit::False(is_false) => todo!(),
     }

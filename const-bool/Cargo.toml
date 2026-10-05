@@ -10,8 +10,8 @@ categories = ["no-std", "data-structures", "rust-patterns"]
 repository = "https://github.com/Alpha-Qian/rust-crates/tree/main/const-bool"
 
 [features]
-default = ["typewit"]
-typewit = ["dep:typewit"]
+# default = ["typewit"]
+# typewit = ["dep:typewit"]
 
 [dependencies]
-typewit = {version = "1", optional = true}
+# typewit = {version = "1", optional = true}
