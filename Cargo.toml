@@ -13,5 +13,5 @@ exclude = []
 [workspace.dependencies]
 may-exist = {path = "may-exist"}
 may-atomic = {path = "may-atomic"}
-const-bool = {path = "const-bool", version = "0.1.1"}
+const-bool = {path = "const-bool", version = "0.1.2"}
 radium = "1.1.1"

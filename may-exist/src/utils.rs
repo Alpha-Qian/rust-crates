@@ -1,4 +1,4 @@
-use core::mem::forget;
+use core::{mem::{forget, transmute}, num::NonZeroUsize};
 
 use const_bool::ConstBool;
 
@@ -30,3 +30,11 @@ pub(crate) const unsafe fn new_assume_none<T, F: ConstBool>() -> StaticOption<T,
 
 ///Mark a Struct which is a MarkerType cant be construct
 pub(crate) enum MarkerType{}
+
+
+const fn addr_cast<F: ConstBool>(addr: usize) -> Option<NonZeroUsize> {
+    if F::VALUE {
+        return unsafe { transmute(addr) };
+    }
+    return None;
+}
