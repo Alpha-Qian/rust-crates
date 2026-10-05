@@ -31,6 +31,8 @@ mod assert;
 //暂不公开
 mod const_flag;
 mod from_bool;
+mod witness;
+mod bool_select_wits;
 
 pub use const_bool::{
     ConstBool,
@@ -51,6 +53,11 @@ pub use assert::{
     AssertFalse,
 };
 
+pub use witness::{
+    BoolFn,
+    BoolWit,
+};
+
 mod sealed {
     pub trait Sealed {}
 }
@@ -61,13 +68,6 @@ mod tests {
 
     #[test]
     fn test_logic() {
-
-        // const fn test_bound<A: ConstBool, B: ConstBool>()
-        // where
-        //     And<A, B> = ConstTrue
-        // {
-        //     todo!()
-        // }
         
         // test VALUE
         assert_eq!(ConstTrue::VALUE, true);

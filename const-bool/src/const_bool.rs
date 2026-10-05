@@ -1,7 +1,12 @@
 use core::cmp::Eq as StdEq;
 use core::{fmt::Debug, hash::Hash};
 
-use crate::sealed::Sealed;
+use crate::witness::BoolWit;
+use crate::{sealed::Sealed, witness::Is};
+
+#[cfg(feature = "typewit")]
+use typewit::TypeEq;
+
 
 // we add a set of super trait make sure user's derive can work
 /// # Safety
@@ -11,6 +16,8 @@ use crate::sealed::Sealed;
 /// 
 pub unsafe trait ConstBool: Sealed + Debug + Copy + Hash + StdEq + Send + Sync + Unpin + 'static {
     const VALUE: bool;
+
+    const WIT: BoolWit<Self>;
 
     // allow T: ?Size, F: ?Sized is imposible;
     // because the compeliter can not understand 'T: Sized & F: Sized => <B as ConstBool>::Select<T, F>: Sized'
@@ -26,7 +33,7 @@ pub unsafe trait ConstBool: Sealed + Debug + Copy + Hash + StdEq + Send + Sync +
 
     type Eq<R: ConstBool>: ConstBool;
 
-    //type BiggerThan<R: ConstBool>: ConstBool;
+    type SelectBool<T: ConstBool, F: ConstBool>: ConstBool;
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
@@ -36,6 +43,8 @@ impl Sealed for ConstTrue {}
 
 unsafe impl ConstBool for ConstTrue {
     const VALUE: bool = true;
+
+    const WIT: BoolWit<Self> = BoolWit::True(Is::refl());
 
     type Select<T, F> = T;
 
@@ -47,7 +56,7 @@ unsafe impl ConstBool for ConstTrue {
 
     type Eq<R: ConstBool> = R;
 
-    //type BiggerThan<R: ConstBool> = R::Neg;
+    type SelectBool<T: ConstBool, F: ConstBool> = T;
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
@@ -57,6 +66,8 @@ impl Sealed for ConstFalse {}
 
 unsafe impl ConstBool for ConstFalse {
     const VALUE: bool = false;
+
+    const WIT: BoolWit<Self> = BoolWit::False(Is::refl());
 
     type Select<T, F> = F;
 
@@ -68,6 +79,7 @@ unsafe impl ConstBool for ConstFalse {
 
     type Eq<R: ConstBool> = R::Not;
 
+    type SelectBool<T: ConstBool, F: ConstBool> = F;
     //type BiggerThan<R: ConstBool> = ConstFalse;
 }
 
@@ -86,4 +98,3 @@ pub type Xor<A, B> = Not<Eq<A, B>>;
 pub type Nor<A, B> = Not<Or<A, B>>;
 
 pub type Nand<A, B> = Not<And<A, B>>;
-

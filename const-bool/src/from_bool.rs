@@ -1,6 +1,6 @@
 use crate::{ConstBool, ConstFalse, ConstTrue};
 
-pub trait FromBool<const B: bool> {
+trait FromBool<const B: bool> {
     type Type: ConstBool;
 }
 
