@@ -4,10 +4,6 @@ use core::{fmt::Debug, hash::Hash};
 use crate::witness::BoolWit;
 use crate::{sealed::Sealed, witness::Is};
 
-#[cfg(feature = "typewit")]
-use typewit::TypeEq;
-
-
 // we add a set of super trait make sure user's derive can work
 /// # Safety
 /// The implementors can and must only be `ConstTrue` and `ConstFalse`.
@@ -33,11 +29,13 @@ pub unsafe trait ConstBool: Sealed + Debug + Copy + Hash + StdEq + Send + Sync +
 
     type Eq<R: ConstBool>: ConstBool;
 
+    type Xor<R: Con
+
     type SelectBool<T: ConstBool, F: ConstBool>: ConstBool;
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
-pub enum ConstTrue{}
+pub struct ConstTrue;
 
 impl Sealed for ConstTrue {}
 
@@ -60,7 +58,7 @@ unsafe impl ConstBool for ConstTrue {
 }
 
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
-pub enum ConstFalse{}
+pub struct ConstFalse;
 
 impl Sealed for ConstFalse {}
 
@@ -80,7 +78,6 @@ unsafe impl ConstBool for ConstFalse {
     type Eq<R: ConstBool> = R::Not;
 
     type SelectBool<T: ConstBool, F: ConstBool> = F;
-    //type BiggerThan<R: ConstBool> = ConstFalse;
 }
 
 pub type Select<B, T, F> = <B as ConstBool>::Select<T, F>;

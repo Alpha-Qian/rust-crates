@@ -29,10 +29,10 @@ mod const_bool;
 mod assert;
 
 //暂不公开
-mod const_flag;
-mod from_bool;
+mod bool_fn;
 mod witness;
 mod bool_select_wits;
+mod lemma;
 
 pub use const_bool::{
     ConstBool,

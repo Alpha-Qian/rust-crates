@@ -42,6 +42,12 @@ impl<A, B> Is<A, B> {
 
 }
 
+pub trait TypeFn { type Apply<T>; }
+
+pub trait TypeFnv2<A> {
+    type Applyed;
+}
+
 /// 类型级函数，stable 上没有 HKT，只能每个函数一个结构体
 pub trait BoolFn { type Apply<F: ConstBool>; }
 
@@ -56,6 +62,8 @@ impl<A: ConstBool, B: ConstBool> Is<A, B> {
     pub const fn project2<G: BoolFn2, C: ConstBool, D: ConstBool>(
         self, _: Is<C, D>,
     ) -> Is<G::Apply<A, C>, G::Apply<B, D>> { Is(PhantomData) }
+
+    const fn type_project<G: TypeFn>(self) -> Is<G::Apply<A>, G::Apply<B>> { Is(PhantomData) }
 
 }
 
